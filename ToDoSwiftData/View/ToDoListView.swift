@@ -19,12 +19,23 @@ struct ToDoListView: View {
                     Text(toDo.name)
                     Text("\(toDo.priority)")
                 }
-            }
+            }.onDelete(perform: { indexSet in
+                indexSet.forEach { index in
+                    let toDo = toDos[index]
+                    context.delete(toDo)
+                    do {
+                        try context.save()
+                    } catch {
+                        print(error)
+                    }
+                }
+            })
         }
     }
 }
-
+/*
 #Preview {
     ToDoListView(toDos: [ToDo(name: "Test", priority: 1)]).modelContainer(for: [ToDo.self])
 }
 
+*/

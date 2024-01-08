@@ -11,10 +11,22 @@ import SwiftData
 struct ListViewScreen: View {
 
     @Query(sort: \ToDo.name, order: .forward) var toDos: [ToDo]
+    @State var isPresented: Bool = false
 
     var body: some View {
         NavigationStack {
             ToDoListView(toDos: toDos)
+                .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: {
+                        isPresented = true
+                    }, label: {
+                            Text("Add")
+                        }).sheet(isPresented: $isPresented, content: {
+                        AddToDoScreen()
+                    })
+                }
+            }
         }
     }
 }
