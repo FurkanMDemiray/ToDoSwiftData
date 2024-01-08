@@ -16,6 +16,10 @@ struct AddToDoScreen: View {
     @State var name: String = ""
     @State var priority: Int?
 
+    var isFormValid: Bool {
+        !name.trimmingCharacters(in: .whitespaces).isEmpty && priority != nil
+    }
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -49,7 +53,7 @@ struct AddToDoScreen: View {
 
                     }, label: {
                             Text("Save")
-                        })
+                        }).disabled(!isFormValid)
                 }
             }
         }
@@ -57,5 +61,5 @@ struct AddToDoScreen: View {
 }
 
 #Preview {
-    AddToDoScreen()
+    AddToDoScreen().modelContainer(for: [ToDo.self])
 }
